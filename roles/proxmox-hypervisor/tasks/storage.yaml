@@ -1,0 +1,47 @@
+# file: hypervisor/tasks/storage.yaml
+# Author: Pedro Anisio Silva
+# 14.jan.2023
+---
+- name: Create "/mnt/gfs/bkp"
+  ansible.builtin.file:
+    path: /mnt/gfs/bkp
+    state: directory
+    mode: '0775'
+  tags:
+  - setup
+
+- name: Create "/mnt/pve/hdd-disk"
+  ansible.builtin.file:
+    path: /mnt/pve/hdd-disk
+    state: directory
+    mode: '0775'
+  tags:
+  - setup
+
+- name: Create "/mnt/pve/ssd-disk"
+  ansible.builtin.file:
+    path: /mnt/pve/ssd-disk
+    state: directory
+    mode: '0775'
+  tags:
+  - setup
+
+- name: Mount "/mnt/gfs/bkp"
+  ansible.posix.mount:
+    path: /mnt/gfs/bkp
+    src: 10.10.10.31:/gv3
+    fstype: glusterfs
+    opts: defaults,_netdev,fetch-attempts=2,log-level=WARNING,log-file=/var/log/gluster.log,backupvolfile-server=10.10.10.32
+    state: mounted
+  tags:
+  - setup
+
+- name: Default /etc/pve/storage.cfg
+  template:
+    src: storage.cfg.j2
+    dest: /etc/pve/storage.cfg
+    owner: root
+    group: www-data        
+    mode: '0640'
+  tags:
+  - setup

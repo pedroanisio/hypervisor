@@ -1,0 +1,11 @@
+# file: playbooks/hypervisor.yml
+---
+- name: Managing Proxmox Hypervisors (PVE)
+  hosts: hypervisor
+  remote_user: root
+  roles:
+  - proxmox-hypervisor
+
+# Commands tags
+# --tags setup
+# Setup fresh proxmox hypervisor

@@ -1,0 +1,19 @@
+ # vztemplates
+ # debian-11-standard_11.6-1_amd64.tar.zst
+ 
+   ## Proxmox pakacges
+   ## packages to install via apt on all nodes
+    base_packages: 
+    - curl
+    - git
+    - htop
+    - net-tools
+    - pv
+    - python3
+    - qemu-guest-agent
+    - rsync
+    - wget
+    - vim
+    - zsh
+    - chrony
+    - screen

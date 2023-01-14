@@ -1,0 +1,33 @@
+dir: local
+        path /var/lib/vz
+        content iso,backup,vztmpl
+
+lvmthin: local-lvm
+        thinpool data
+        vgname pve
+        content images,rootdir
+
+zfspool: zfs
+        pool nvme-disk
+        content rootdir,images
+        mountpoint /nvme-disk
+        sparse 0
+
+dir: hdd-disk
+        path /mnt/pve/hdd-disk
+        content images
+        prune-backups keep-all=1
+        shared 0
+
+dir: ssd-disk
+        path /mnt/pve/ssd-disk
+        content images
+        prune-backups keep-all=1
+        shared 0
+
+dir: bkp
+        path /mnt/gfs/bkp
+        content backup,vztmpl,iso
+        prune-backups keep-all=1
+        shared 0
+        

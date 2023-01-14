@@ -1,0 +1,45 @@
+# file: roles/proxmox-hypervisor/tasks/main.yml
+# Setup a proxmox server
+# Pedro Anisio Silva
+# 14.jan.2023
+
+---
+- name: Set default "sources.list"
+  template:
+    src: sources.list.j2
+    dest: /etc/apt/sources.list
+  tags:
+  - setup
+
+- name: Set default "pve-enterprise.list"
+  template:
+    src: pve-enterprise.list.j2
+    dest: /etc/apt/sources.list.d/pve-enterprise.list
+  tags:
+  - setup
+
+- name: Update APT repositories
+  ansible.builtin.include_role:
+    name: debian
+  tags:
+    - setup
+
+  ## Minimum set o package each host should have
+- name: Install common packagesS
+  apt:
+    name: "{{ base_packages }}"
+    state: present
+  tags:
+  - setup
+
+- name: Include storage taks
+  ansible.builtin.include_tasks:
+    file: storage.yaml
+  tags:
+  - setup
+
+- name: Load pveam tasks
+  ansible.builtin.include_tasks:
+    file: pveam.yaml
+  tags:
+  - update 
